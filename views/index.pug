@@ -13,10 +13,10 @@ table
       th Genre
       th Year
   tbody
-    each book in #{books}
+    each book in books
       tr
         td
-          a(href='book_detail.html')= book.title
-        td= book.author
-        td= book.genre
-        td= book.year
+          a(href='book_detail.html')=book.title
+        td=book.author
+        td=book.genre
+        td=book.year

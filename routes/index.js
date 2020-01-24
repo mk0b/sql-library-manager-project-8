@@ -7,5 +7,3 @@ router.get('/', (req, res) => {
 });
 
 module.exports = router;
-
-//TODO: Install some middleware stuff? I think that has to do with the error.

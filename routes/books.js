@@ -17,7 +17,8 @@ function asyncHelper(callback){
 //get all books
 router.get('/', asyncHelper(async (req, res) => {
     //TODO: Alphabetical order by title.
-    const books = await Book.findAll({ order: [[ "title", "ASC"]]});
+    const books = await Book.findAll({ order: [[ "title", "ASC" ]]});
+    console.log(books);
     res.render('index', { books });
     //TODO: Setup pug files so these can be tested properly. Use the HTML Pug Converter
 }));
