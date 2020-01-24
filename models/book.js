@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
-    class Book extends Sequelize.Model() {}
+    class Book extends Sequelize.Model {}
     Book.init({
         title: Sequelize.STRING,
         author: Sequelize.STRING,

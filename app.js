@@ -1,7 +1,7 @@
 //main js script for the application
 const express = require('express');
 const bookRoutes = require('./routes/books');
-const mainRoutes = require('./routes/index');
+const mainRoutes = require('./routes');
 
 
 //creates express app

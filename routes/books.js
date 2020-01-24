@@ -18,8 +18,7 @@ function asyncHelper(callback){
 router.get('/', asyncHelper(async (req, res) => {
     //TODO: Alphabetical order by title.
     const books = await Book.findAll({ order: [[ "title", "ASC"]]});
-    res.render('index', { books, pageTitle: "Books" });
-    //TODO: make the title dynamic
+    res.render('index', { books });
     //TODO: Setup pug files so these can be tested properly. Use the HTML Pug Converter
 }));
 
@@ -32,3 +31,5 @@ router.get('/', asyncHelper(async (req, res) => {
 //post update book info in db /books/:id
 
 //post - deletes a book /books/:id/delete TODO: create a test to test deleting books.
+
+module.exports = router;
