@@ -43,9 +43,7 @@ router.get('/:id', asyncHelper(async (req, res) => {
 }));
 
 //post update book info in db /books/:id
-router.post();
 
 //post - deletes a book /books/:id/delete TODO: create a test to test deleting books.
-router.post();
 
 module.exports = router;

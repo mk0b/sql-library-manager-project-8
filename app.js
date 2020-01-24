@@ -22,3 +22,8 @@ sequelize.sync().then(() => {
         console.log('Magic is now happening on localhost:3000.');
     });    
 });
+
+//TODO: Finish up routes
+//TODO: Clean up pug. Make a form pug to use in new and update.
+//TODO: Error handling
+//TODO: Add field validation with sequelize.
