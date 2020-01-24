@@ -12,6 +12,8 @@ const app = express();
 app.set('view engine', 'pug');
 app.use('/books', bookRoutes);
 app.use('/', mainRoutes);
+//app.use('/static', express.static('public'));
+//TODO: Fix the styling issues that are going on with not being able to use the style sheet that was given
 
 /* Listen on port*/
 sequelize.sync().then(() => {
