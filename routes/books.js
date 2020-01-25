@@ -41,8 +41,6 @@ router.post('/new', asyncHelper(async (req, res) => {
             throw error;
         }
     }
-    
-
 }));
 
 //get show indv book detail /books/:id
@@ -58,10 +56,20 @@ router.get('/:id', asyncHelper(async (req, res) => {
 
 //post update book info in db /books/:id
 router.post('/:id', asyncHelper(async(req, res) => {
-    //finds the specific book in the db and updates the info changed in the form
-    const book = await Book.findByPk(req.params.id);
-    await book.update(req.body);
-    res.redirect('/books/' + book.id);
+    let book;
+    try {
+        //finds the specific book in the db and updates the info changed in the form
+        const book = await Book.findByPk(req.params.id);
+        await book.update(req.body);
+        res.redirect('/books/' + book.id);
+    } catch (error) {
+        if (error.name === "SequelizeValidationError") {
+            book = await Book.build();
+            res.render('update-book', { book, errors:  error.errors, title: 'New Book'} );
+        } else {
+            throw error;
+        }
+    }
 }));
 
 //get - takes you to the confirm deletion page
