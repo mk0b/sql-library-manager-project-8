@@ -27,17 +27,33 @@ router.get('/new', asyncHelper(async (req, res) => {
 
 //post a new book to the db /books/new on form submission
 router.post('/new', asyncHelper(async (req, res) => {
-    //putting what we fill out in the new book form into the db
-    const book = await Book.create(req.body);
-    console.log(req.body);
-    res.redirect('/books/' + book.id);
+    let book;
+    try {
+        //putting what we fill out in the new book form into the db
+        book = await Book.create(req.body);
+        console.log(req.body);
+        res.redirect('/books/' + book.id);
+    } catch (error) {
+        if (error.name === "SequelizeValidationError") {
+            book = await Book.build();
+            res.render('new-book', { book, errors:  error.errors, title: 'New Book'} );
+        } else {
+            throw error;
+        }
+    }
+    
+
 }));
 
 //get show indv book detail /books/:id
 router.get('/:id', asyncHelper(async (req, res) => {
     //getting and showing a specific article depending on the id in the url
     const book = await Book.findByPk(req.params.id);
-    res.render('update-book', { book, title: 'Update Book' });
+    if (book) {
+        res.render('update-book', { book, title: 'Update Book' });
+    } else {
+        res.sendStatus(404);
+    }
 }));
 
 //post update book info in db /books/:id
