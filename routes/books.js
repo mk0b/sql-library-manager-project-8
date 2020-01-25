@@ -27,9 +27,9 @@ router.get('/new', asyncHelper(async (req, res) => {
 }));
 
 //post a new book to the db /books/new on form submission
-router.post('/', asyncHelper(async (req, res) => {
+router.post('/new', asyncHelper(async (req, res) => {
     //putting what we fill out in the new book form into the db
-    //const book = await Book.create(req.body);
+    const book = await Book.create(req.body);
     console.log(req.body);
     res.redirect('/books/' + book.id);
 }));
