@@ -1,5 +1,6 @@
 //main js script for the application
 const express = require('express');
+const path = require('path');
 const sequelize = require('./models').sequelize;
 const bookRoutes = require('./routes/books');
 const mainRoutes = require('./routes');
@@ -11,6 +12,7 @@ const app = express();
 //Setting some components of the app to be used.
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'pug');
 app.use('/books', bookRoutes);
 app.use('/', mainRoutes);
