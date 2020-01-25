@@ -5,7 +5,6 @@ const sequelize = require('./models').sequelize;
 const bookRoutes = require('./routes/books');
 const mainRoutes = require('./routes');
 
-
 //creates express app
 const app = express();
 
@@ -17,9 +16,6 @@ app.set('view engine', 'pug');
 app.use('/books', bookRoutes);
 app.use('/', mainRoutes);
 
-//app.use('/static', express.static('public'));
-//TODO: Fix the styling issues that are going on with not being able to use the style sheet that was given
-
 /* Listen on port*/
 sequelize.sync().then(() => {
     //setting up dev server
@@ -28,11 +24,10 @@ sequelize.sync().then(() => {
     });    
 });
 
-//TODO: Finish up routes
 //TODO: Clean up pug. Make a form pug to use in new and update.
-//TODO: Error handling
-//TODO: Add field validation with sequelize.
+//TODO: Error handling - Error routes? Seperate routes js file
 //TODO: Uninstall body-parser from project.
+//TODO: Go for exceeds?
 //TODO: Test!
 //TODO: Fill out read.me
 //TODO: Cleanup tests
