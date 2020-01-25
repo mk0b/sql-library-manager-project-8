@@ -24,9 +24,27 @@ sequelize.sync().then(() => {
     });    
 });
 
+//this makes it so that any route that is not defined will pass through a defined error.
+app.all('*', (req, res, next) => {
+    const err = new Error('Page not found!');
+    err.status = 404;
+    console.log(`Something went wrong. Status: ${err.status}, Message: ${err.message}, Stack: ${err.stack}`)
+    next(err);
+});
+
+// error handler
+app.use( (err, req, res, next) => {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
+});
+
 //TODO: Clean up pug.
 //TODO: Error handling - Error routes? Seperate routes js file
-//TODO: Uninstall body-parser from project.
 //TODO: Go for exceeds
 //TODO: Test!
 //TODO: Fill out read.me
