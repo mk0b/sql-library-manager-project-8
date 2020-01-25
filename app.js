@@ -24,10 +24,10 @@ sequelize.sync().then(() => {
     });    
 });
 
-//TODO: Clean up pug. Make a form pug to use in new and update.
+//TODO: Clean up pug.
 //TODO: Error handling - Error routes? Seperate routes js file
 //TODO: Uninstall body-parser from project.
-//TODO: Go for exceeds?
+//TODO: Go for exceeds
 //TODO: Test!
 //TODO: Fill out read.me
 //TODO: Cleanup tests
