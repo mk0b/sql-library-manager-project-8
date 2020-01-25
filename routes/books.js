@@ -17,12 +17,12 @@ function asyncHelper(callback){
 //get all books
 router.get('/', asyncHelper(async (req, res) => {
     const books = await Book.findAll({ order: [[ "title", "ASC" ]]});
-    res.render('index', { books });
+    res.render('index', { books, title: 'All Books' });
 }));
 
 //get new book form /books/new
 router.get('/new', asyncHelper(async (req, res) => {
-    res.render('new-book', { book: {} });
+    res.render('new-book', { book: {}, title: 'New Book' });
 }));
 
 //post a new book to the db /books/new on form submission
@@ -37,7 +37,7 @@ router.post('/new', asyncHelper(async (req, res) => {
 router.get('/:id', asyncHelper(async (req, res) => {
     //getting and showing a specific article depending on the id in the url
     const book = await Book.findByPk(req.params.id);
-    res.render('update-book', { book });
+    res.render('update-book', { book, title: 'Update Book' });
 }));
 
 //post update book info in db /books/:id
@@ -51,7 +51,7 @@ router.post('/:id', asyncHelper(async(req, res) => {
 //get - takes you to the confirm deletion page
 router.get('/:id/delete', asyncHelper(async(req,res) => {
     const book = await Book.findByPk(req.params.id);
-    res.render('delete', { book });
+    res.render('delete', { book, title: 'Delete Book' });
 }));
 
 //post - deletes a book /books/:id/delete
