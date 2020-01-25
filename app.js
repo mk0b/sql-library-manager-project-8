@@ -1,5 +1,6 @@
 //main js script for the application
 const express = require('express');
+const bodyParser = require('body-parser');
 const sequelize = require('./models').sequelize;
 const bookRoutes = require('./routes/books');
 const mainRoutes = require('./routes');
@@ -12,6 +13,8 @@ const app = express();
 app.set('view engine', 'pug');
 app.use('/books', bookRoutes);
 app.use('/', mainRoutes);
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 //app.use('/static', express.static('public'));
 //TODO: Fix the styling issues that are going on with not being able to use the style sheet that was given
 
@@ -27,3 +30,7 @@ sequelize.sync().then(() => {
 //TODO: Clean up pug. Make a form pug to use in new and update.
 //TODO: Error handling
 //TODO: Add field validation with sequelize.
+//TODO: Test!
+//TODO: Fill out read.me
+//TODO: Cleanup tests
+//TODO: Clean up comments

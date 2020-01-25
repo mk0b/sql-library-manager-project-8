@@ -17,21 +17,20 @@ function asyncHelper(callback){
 //get all books
 router.get('/', asyncHelper(async (req, res) => {
     const books = await Book.findAll({ order: [[ "title", "ASC" ]]});
-    console.log(books);
     res.render('index', { books });
     //TODO: Setup pug files so these can be tested properly. Use the HTML Pug Converter
 }));
 
 //get new book form /books/new
 router.get('/new', asyncHelper(async (req, res) => {
-    res.render('new-book', { book:  {} });
+    res.render('new-book', { book: {} });
 }));
 
 //post a new book to the db /books/new on form submission
 router.post('/', asyncHelper(async (req, res) => {
     //putting what we fill out in the new book form into the db
-    const book = await Book.create(req.body);
-    console.log(book);
+    //const book = await Book.create(req.body);
+    console.log(req.body);
     res.redirect('/books/' + book.id);
 }));
 
