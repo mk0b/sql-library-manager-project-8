@@ -1,0 +1,6 @@
+h1 Delete #{book.title}
+form(action=`/books/${book.id}/delete`, method="post")
+    p
+        input(type='submit' value='Yes, Delete Book')
+    p
+        a.button(href='/books') No, Cancel

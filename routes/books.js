@@ -18,7 +18,6 @@ function asyncHelper(callback){
 router.get('/', asyncHelper(async (req, res) => {
     const books = await Book.findAll({ order: [[ "title", "ASC" ]]});
     res.render('index', { books });
-    //TODO: Setup pug files so these can be tested properly. Use the HTML Pug Converter
 }));
 
 //get new book form /books/new
@@ -38,11 +37,30 @@ router.post('/new', asyncHelper(async (req, res) => {
 router.get('/:id', asyncHelper(async (req, res) => {
     //getting and showing a specific article depending on the id in the url
     const book = await Book.findByPk(req.params.id);
-    res.render('book-detail', { book });
+    res.render('update-book', { book });
 }));
 
 //post update book info in db /books/:id
+router.post('/:id', asyncHelper(async(req, res) => {
+    //finds the specific book in the db and updates the info changed in the form
+    const book = await Book.findByPk(req.params.id);
+    await book.update(req.body);
+    res.redirect('/books/' + book.id);
+}));
 
-//post - deletes a book /books/:id/delete TODO: create a test to test deleting books.
+//get - takes you to the confirm deletion page
+router.get('/:id/delete', asyncHelper(async(req,res) => {
+    const book = await Book.findByPk(req.params.id);
+    res.render('delete', { book });
+}));
+
+//post - deletes a book /books/:id/delete
+router.post('/:id/delete', asyncHelper(async(req, res) => {
+    //removing specific book from the db.
+    const book = await Book.findByPk(req.params.id);
+    await book.destroy();
+    res.redirect('/books');
+}));
+
 
 module.exports = router;

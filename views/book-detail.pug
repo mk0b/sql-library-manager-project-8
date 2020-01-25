@@ -1,6 +1,6 @@
 doctype html
 head
-    title A Brief History of Time
+    title=book.title
     link(rel='stylesheet' href='../public/stylesheets/style.css')
 h1 Book Details
 table
@@ -16,3 +16,8 @@ table
         td=book.author
         td=book.genre
         td=book.year
+
+p
+    a.button(href='/books') Back to Books
+p
+    a.button(href='/books/update') Back to Books
