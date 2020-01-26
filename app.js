@@ -44,11 +44,10 @@ app.use( (err, req, res, next) => {
     if (err.status === 404) {
         res.render('page-not-found');
     }
-    
 });
 
 //TODO: Clean up pug.
-//TODO: Error handling - Error routes? Seperate routes js file
+//TODO: Ask for clarification around "global error handling" for a book that doesn't exist.
 //TODO: Go for exceeds
 //TODO: Test!
 //TODO: Fill out read.me

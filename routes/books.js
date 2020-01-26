@@ -50,7 +50,7 @@ router.get('/:id', asyncHelper(async (req, res) => {
     if (book) {
         res.render('update-book', { book, title: 'Update Book' });
     } else {
-        res.sendStatus(404);
+        res.render('book-not-found');
     }
 }));
 
