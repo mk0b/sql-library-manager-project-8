@@ -39,7 +39,7 @@ router.get('/', asyncHelper(async (req, res) => {
 }
 */
 
-//post search form to search the whole db.
+//post search form to search the whole db. //TODO: Decide if this needs it's own page?
 router.post('/', asyncHelper(async(req, res) => {
     //capture the search form content
     const search = req.body;
