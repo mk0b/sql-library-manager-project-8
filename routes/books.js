@@ -1,5 +1,7 @@
 //books routes
 const express = require('express');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const router = express.Router();
 const Book = require('../models').Book;
 
@@ -18,6 +20,59 @@ function asyncHelper(callback){
 router.get('/', asyncHelper(async (req, res) => {
     const books = await Book.findAll({ order: [[ "title", "ASC" ]]});
     res.render('index', { books, title: 'All Books' });
+}));
+
+/*
+{
+  [Op.or]: [
+    {
+      title: {
+        [Op.like]: 'Boat%'
+      }
+    },
+    {
+      description: {
+        [Op.like]: '%boat%'
+      }
+    }
+  ]
+}
+*/
+
+//post search form to search the whole db.
+router.post('/', asyncHelper(async(req, res) => {
+    //capture the search form content
+    const search = req.body;
+    console.log('Search text: ', search);
+    //create books for this page with the search results
+    //use the multiple like operator
+    const books = await Book.findAll({ where: {
+        [Op.or]: 
+            [
+                {
+                    title: {
+                        [Op.like]: `%${search.searchtext.toLowerCase()}%`
+                    }
+                },
+                {
+                    author: {
+                        [Op.like]: `%${search.searchtext.toLowerCase()}%`
+                    }
+                },
+                {
+                    genre: {
+                        [Op.like]: `%${search.searchtext.toLowerCase()}%`
+                    }
+                },
+                {
+                    year: {
+                        [Op.like]: `%${search.searchtext.toLowerCase()}%`
+                    }
+                }
+            ]    
+    } });
+    console.log('Books: ', books);
+    res.render('index', { books, title: 'All Books' } );
 }));
 
 //get new book form /books/new
