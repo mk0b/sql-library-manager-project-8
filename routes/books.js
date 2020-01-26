@@ -16,28 +16,26 @@ function asyncHelper(callback){
     }
 }
 
+//TODO: Make a helper function to add it right into my / findAll like the article says
+//TODO: For the pagination we need to accept a query param called page
+
 //get all books
 router.get('/', asyncHelper(async (req, res) => {
+    //const page = req.query.page || 1;
+    //calc offset
+    //const offset = page * pageSize;
+    //const limit = pageSize;
+
+    //get the count of books to dictate the number of pagination needed
+    const bookModel = await Book.findAndCountAll({
+        order: [[ "title", "ASC"]]
+    });
+    console.log(bookModel.count);
+
+    //getting all the books and ordering by title alphabetical
     const books = await Book.findAll({ order: [[ "title", "ASC" ]]});
     res.render('index', { books, title: 'All Books' });
 }));
-
-/*
-{
-  [Op.or]: [
-    {
-      title: {
-        [Op.like]: 'Boat%'
-      }
-    },
-    {
-      description: {
-        [Op.like]: '%boat%'
-      }
-    }
-  ]
-}
-*/
 
 //post search form to search the whole db. //TODO: Decide if this needs it's own page?
 router.post('/', asyncHelper(async(req, res) => {
