@@ -50,9 +50,10 @@ app.use( (err, req, res, next) => {
 //TODO: Ask for clarification around "global error handling" for a book that doesn't exist.
 //TODO: Go for exceeds
 //TODO: Add styling to the search bar and move it to the top right of the layout
-//TODO: Look up pagination / limiting sequelize docs
+//TODO: Clean up pagination and move into a helper function?
 //TODO: Add a try catch to the search route to put a friendly error message when there are no matching search results.
 //TODO: Add a button to the index page to go back to "all books"? Clear Search or something
+//TODO: Add create another book button to the update page.
 //TODO: Test!
 //TODO: Fill out read.me
 //TODO: Cleanup tests
