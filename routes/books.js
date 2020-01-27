@@ -122,11 +122,7 @@ router.post('/new', asyncHelper(async (req, res) => {
 router.get('/:id', asyncHelper(async (req, res) => {
     //getting and showing a specific article depending on the id in the url
     const book = await Book.findByPk(req.params.id);
-    if (book) {
-        res.render('update-book', { book, title: 'Update Book' });
-    } else {
-        res.render('book-not-found');
-    }
+    res.render('update-book', { book, title: 'Update Book' });
 }));
 
 //post update book info in db /books/:id
