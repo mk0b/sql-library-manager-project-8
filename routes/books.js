@@ -31,10 +31,24 @@ router.get('/', asyncHelper(async (req, res) => {
         order: [[ "title", "ASC"]]
     });
     console.log(bookModel.count);
+    const recordsPerPage = 10;
+    const numOfPages = Math.ceil(bookModel.count / recordsPerPage)
+    console.log(numOfPages);
+    const pagLinkArray = []
+
+    for (let i = 1; i <= numOfPages; i++) {
+        pagLinkArray.push(i);
+    }
+
+    console.log('pagLinkArray: ', pagLinkArray);
+
+
+    //I need to divide 16 by how ever many records I want to show on the page. 10 probably. 
+    //Then make an array of those numbers to use in pug?
 
     //getting all the books and ordering by title alphabetical
     const books = await Book.findAll({ order: [[ "title", "ASC" ]]});
-    res.render('index', { books, title: 'All Books' });
+    res.render('index', { books, title: 'All Books', pagLinkArray });
 }));
 
 //post search form to search the whole db. //TODO: Decide if this needs it's own page?
