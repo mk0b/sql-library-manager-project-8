@@ -15,7 +15,7 @@ block content
         th Genre
         th Year
     tbody
-      each book in books
+      each book in books.rows
         tr
           td
             a(href=`/books/page=${book.id}`)=book.title

@@ -31,14 +31,14 @@ router.get('/', asyncHelper(async (req, res) => {
     console.log('limit', limit);
 
     //get the count of books to dictate the number of pagination needed
-    const bookModel = await Book.findAndCountAll({
+    const books = await Book.findAndCountAll({
         order: [[ "title", "ASC"]],
-        limit: limit,
-        offset: offset
+        limit: limit
     });
-    console.log('bookModel Count: ', bookModel.count);
+    console.log('books Count: ', books.count);
+    console.log('Books: ', books);
     
-    const numOfPages = Math.ceil(bookModel.count / recordsPerPage)
+    const numOfPages = Math.ceil(books.count / recordsPerPage)
     console.log('numOfPages: ', numOfPages);
 
     const pagLinkArray = []
@@ -52,7 +52,9 @@ router.get('/', asyncHelper(async (req, res) => {
     //Then make an array of those numbers to use in pug?
 
     //getting all the books and ordering by title alphabetical
-    const books = await Book.findAll({ order: [[ "title", "ASC" ]]});
+    const oldBooks = await Book.findAll({ order: [[ "title", "ASC" ]]});
+    console.log('oldBooks: ', oldBooks);
+    
     res.render('index', { books, title: 'All Books', pagLinkArray });
 }));
 
