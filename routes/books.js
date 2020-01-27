@@ -21,25 +21,30 @@ function asyncHelper(callback){
 
 //get all books
 router.get('/', asyncHelper(async (req, res) => {
-    //const page = req.query.page || 1;
+    const page = req.query.page || 1;
+    console.log('Page: ', page);
+    const recordsPerPage = 10;
     //calc offset
-    //const offset = page * pageSize;
-    //const limit = pageSize;
+    const offset = page * recordsPerPage;
+    console.log('offset: ', offset);
+    const limit = recordsPerPage;
+    console.log('limit', limit);
 
     //get the count of books to dictate the number of pagination needed
     const bookModel = await Book.findAndCountAll({
-        order: [[ "title", "ASC"]]
+        order: [[ "title", "ASC"]],
+        limit: limit,
+        offset: offset
     });
-    console.log(bookModel.count);
-    const recordsPerPage = 10;
+    console.log('bookModel Count: ', bookModel.count);
+    
     const numOfPages = Math.ceil(bookModel.count / recordsPerPage)
-    console.log(numOfPages);
-    const pagLinkArray = []
+    console.log('numOfPages: ', numOfPages);
 
+    const pagLinkArray = []
     for (let i = 1; i <= numOfPages; i++) {
         pagLinkArray.push(i);
     }
-
     console.log('pagLinkArray: ', pagLinkArray);
 
 
