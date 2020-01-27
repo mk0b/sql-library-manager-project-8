@@ -52,10 +52,11 @@ router.get('/', asyncHelper(async (req, res) => {
 router.post('/', asyncHelper(async(req, res) => {
     //capture the search form content
     const search = req.body;
-    console.log('Search text: ', search);
-    //create books for this page with the search results
-    //use the multiple like operator
-    const books = await Book.findAll({ where: {
+    
+    //Have to use findAndCountAll so that the pagination works with search as well
+    //and doesn't break the home page. 
+    //using Op to use like search for each column
+    const books = await Book.findAndCountAll({ where: {
         [Op.or]: 
             [
                 {
@@ -80,8 +81,18 @@ router.post('/', asyncHelper(async(req, res) => {
                 }
             ]    
     } });
-    console.log('Books: ', books);
-    res.render('index', { books, title: 'All Books' } );
+
+    const recordsPerPage = 10;
+    //getting the num of pages for pagination
+    const numOfPages = Math.ceil(books.count / recordsPerPage)
+
+    //creates an array to iterate through in pug for the pag links
+    const pagLinkArray = []
+    for (let i = 1; i <= numOfPages; i++) {
+        pagLinkArray.push(i);
+    }
+
+    res.render('index', { books, title: 'All Books', pagLinkArray } );
 }));
 
 //get new book form /books/new
@@ -95,9 +106,9 @@ router.post('/new', asyncHelper(async (req, res) => {
     try {
         //putting what we fill out in the new book form into the db
         book = await Book.create(req.body);
-        console.log(req.body);
         res.redirect('/books/' + book.id);
     } catch (error) {
+        //error handling so if it's a sequelize error we can show the sequel validations
         if (error.name === "SequelizeValidationError") {
             book = await Book.build();
             res.render('new-book', { book, errors:  error.errors, title: 'New Book'} );
