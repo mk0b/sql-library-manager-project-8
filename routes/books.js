@@ -21,22 +21,23 @@ function asyncHelper(callback){
 
 //get all books
 router.get('/', asyncHelper(async (req, res) => {
-    const page = req.query.page || 1;
+    const page = req.query.page || 0;
     console.log('Page: ', page);
     const recordsPerPage = 10;
     //calc offset
     const offset = page * recordsPerPage;
     console.log('offset: ', offset);
     const limit = recordsPerPage;
-    console.log('limit', limit);
+    console.log('limit: ', limit);
 
     //get the count of books to dictate the number of pagination needed
     const books = await Book.findAndCountAll({
         order: [[ "title", "ASC"]],
-        limit: limit
+        limit: limit,
+        offset: offset
     });
     console.log('books Count: ', books.count);
-    console.log('Books: ', books);
+    //console.log('Books: ', books);
     
     const numOfPages = Math.ceil(books.count / recordsPerPage)
     console.log('numOfPages: ', numOfPages);
@@ -45,16 +46,16 @@ router.get('/', asyncHelper(async (req, res) => {
     for (let i = 1; i <= numOfPages; i++) {
         pagLinkArray.push(i);
     }
-    console.log('pagLinkArray: ', pagLinkArray);
+    //console.log('pagLinkArray: ', pagLinkArray);
 
 
     //I need to divide 16 by how ever many records I want to show on the page. 10 probably. 
     //Then make an array of those numbers to use in pug?
 
     //getting all the books and ordering by title alphabetical
-    const oldBooks = await Book.findAll({ order: [[ "title", "ASC" ]]});
-    console.log('oldBooks: ', oldBooks);
-    
+    //const oldBooks = await Book.findAll({ order: [[ "title", "ASC" ]]});
+    //console.log('oldBooks: ', oldBooks);
+
     res.render('index', { books, title: 'All Books', pagLinkArray });
 }));
 
