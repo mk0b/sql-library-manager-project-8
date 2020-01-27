@@ -16,50 +16,39 @@ function asyncHelper(callback){
     }
 }
 
-//TODO: Make a helper function to add it right into my / findAll like the article says
-//TODO: For the pagination we need to accept a query param called page
+/* Book Routes */
 
 //get all books
 router.get('/', asyncHelper(async (req, res) => {
+    //get the page num in the url if no page num yet set to 0
     const page = req.query.page || 0;
-    console.log('Page: ', page);
     const recordsPerPage = 10;
     //calc offset
     const offset = page * recordsPerPage;
-    console.log('offset: ', offset);
+    //set limit
     const limit = recordsPerPage;
-    console.log('limit: ', limit);
 
-    //get the count of books to dictate the number of pagination needed
+    //get the count of books for the pag link equation
+    //get the list of books ordered by title alphabetically
     const books = await Book.findAndCountAll({
         order: [[ "title", "ASC"]],
         limit: limit,
         offset: offset
     });
-    console.log('books Count: ', books.count);
-    //console.log('Books: ', books);
     
+    //getting the num of pages for pagination
     const numOfPages = Math.ceil(books.count / recordsPerPage)
-    console.log('numOfPages: ', numOfPages);
 
+    //creates an array to iterate through in pug for the pag links
     const pagLinkArray = []
     for (let i = 1; i <= numOfPages; i++) {
         pagLinkArray.push(i);
     }
-    //console.log('pagLinkArray: ', pagLinkArray);
-
-
-    //I need to divide 16 by how ever many records I want to show on the page. 10 probably. 
-    //Then make an array of those numbers to use in pug?
-
-    //getting all the books and ordering by title alphabetical
-    //const oldBooks = await Book.findAll({ order: [[ "title", "ASC" ]]});
-    //console.log('oldBooks: ', oldBooks);
 
     res.render('index', { books, title: 'All Books', pagLinkArray });
 }));
 
-//post search form to search the whole db. //TODO: Decide if this needs it's own page?
+//post search form to search the whole db.
 router.post('/', asyncHelper(async(req, res) => {
     //capture the search form content
     const search = req.body;
