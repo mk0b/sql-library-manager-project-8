@@ -141,11 +141,9 @@ router.post('/:id', asyncHelper(async(req, res) => {
                 returning: true, where: { id: req.params.id }
             }
         );
-        console.log('Book in try catch after update: ', book);
         res.redirect('/books/' + book.id);
     } catch (error) {
         if (error.name === "SequelizeValidationError") {
-            console.log('Book if error occurs and .buld() is called; ', book);
             res.render('update-book', { book, errors:  error.errors, title: 'New Book'} );
         } else {
             throw error;
