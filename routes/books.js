@@ -127,15 +127,25 @@ router.get('/:id', asyncHelper(async (req, res) => {
 
 //post update book info in db /books/:id
 router.post('/:id', asyncHelper(async(req, res) => {
-    let book;
+    let book = await Book.findByPk(req.params.id);
     try {
         //finds the specific book in the db and updates the info changed in the form
-        const book = await Book.findByPk(req.params.id);
-        await book.update(req.body);
+        await Book.update(
+            {
+                title: req.body.title,
+                author: req.body.author,
+                genre: req.body.genre,
+                year: req.body.year
+            },
+            {
+                returning: true, where: { id: req.params.id }
+            }
+        );
+        console.log('Book in try catch after update: ', book);
         res.redirect('/books/' + book.id);
     } catch (error) {
         if (error.name === "SequelizeValidationError") {
-            book = await Book.build();
+            console.log('Book if error occurs and .buld() is called; ', book);
             res.render('update-book', { book, errors:  error.errors, title: 'New Book'} );
         } else {
             throw error;
